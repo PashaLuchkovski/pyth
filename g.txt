@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-bbbdfgfdghfnfdghg
-=======
 bbbdfgfdghfnrePASHA
->>>>>>> Pasha_L
