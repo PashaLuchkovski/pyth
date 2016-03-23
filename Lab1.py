@@ -1,10 +1,7 @@
 import urllib2
-import sys
 import os
-import glob
 import pandas as pd
 import re
-
 
 #GetDataByIndex
 def reIndex(index):
@@ -33,8 +30,8 @@ def readDataToFrame(path):
     frame_columns = df.columns.values
     for i in range(0, len(df.columns.values)):
         frame_columns[i] = re.sub('[^A-Za-z0-9]+', '', frame_columns[i])
-    #print list(frame_columns)
     df.columns = frame_columns
+    df = df.loc[(df['SMN'] != -1)]
     return df
 
 def getYearVHI(year, df, district):
@@ -66,6 +63,19 @@ def DryYears(df, areaPercent):
     return DryYears_mass
 
 
+def getMeanVHIyears(df):
+    tmp = df.loc[(df['week'] >= 17)]
+    tmp = df.loc[(df['week'] <= 28)]
+    arr = df['VHI'].mean()
+    dd = tmp.loc[(tmp['VHI'] <= arr)]
+    Years_mass = []
+    for year in dd['year']:
+        #print str(year) + ", "
+        if year not in Years_mass:
+            Years_mass.append(year)
+    print "Years with less VHI than mean"
+    print list(Years_mass)
+
 ##################################_______________######################################
 
 def main_func():
@@ -76,14 +86,16 @@ def main_func():
     DataFrame = readDataToFrame(path)
     year = 2012
     AreaPercent = 23
-    print "######################################################"
+    
     yearVHI = getYearVHI(year, DataFrame, district)
     print "######################################################"
     print "Extra dry years, " + str(AreaPercent) + "% of area in " + str(district) + " district: ", list(extraDryYears(DataFrame, AreaPercent))
     print "######################################################"
     print "Dry years, " + str(AreaPercent) + "% of area in " + str(district) + " district: " , list(DryYears(DataFrame, AreaPercent))
-
+    print "######################################################"
+    getMeanVHIyears(DataFrame)
     #print list(DataFrame.columns.values)
     #print DataFrame[:100]
 
 main_func()
+
