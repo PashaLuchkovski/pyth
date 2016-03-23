@@ -18,7 +18,6 @@ def getDataByIndex(index):
     out = open('/Users/pashaluchkovski/Documents/Study/Coding/Python/pyth/f.csv', 'wb')
     out.write(vhi_url.read())
     out.close()
-
     print "VHI " + strIndex + " is downloaded..."
 
 
@@ -119,8 +118,8 @@ class SimpleApp(server.App):
    		df = pd.read_csv(pathToDirectory()+"f.csv", index_col=False, header=1)
    		#frame = self.getData(params)
    		frame = df[(df['year'] == int(params['year_r']))]
-   		frame = frame.loc[(frame['week']<=int(params['till']))]
-   		frame = frame.loc[(frame['week']>=int(params['since']))]
+   		frame = frame.loc[(frame['week'] <= int(params['till']))]
+   		frame = frame.loc[(frame['week'] >= int(params['since']))]
    		y_axis = frame[params['column']]
    		x_axis = frame['week']
    		plt.plot(x_axis, y_axis)
